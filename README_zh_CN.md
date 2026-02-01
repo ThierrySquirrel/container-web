@@ -121,6 +121,8 @@ public class HttpDemo {
 
     @Post("/error")
     public String error() {
+        HttpRequestContext httpRequest = HttpRequestContainer.get();
+        HttpRequestContext httpResponse = HttpResponseContainer.get();
         System.out.println("error");
         return "error";
     }
