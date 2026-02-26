@@ -31,7 +31,7 @@ Web 容器
         <dependency>
             <groupId>io.github.thierrysquirrel</groupId>
             <artifactId>container-web</artifactId>
-            <version>1.0.0.0-RELEASE</version>
+            <version>1.0.0.1-RELEASE</version>
         </dependency>
 ```
 

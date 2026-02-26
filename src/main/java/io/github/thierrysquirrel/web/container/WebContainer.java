@@ -37,25 +37,13 @@ public class WebContainer {
     private static final ConcurrencyHashMap<String, ConcurrencyHashMap<String, WebContainerReflect>> METHOD_URL_CONTAINER = new ConcurrencyHashMap<>(WebConstant.DEFAULT_MAP_OFFSET);
 
     public static WebContainerReflect getReflect(String method, String url) {
-        ConcurrencyHashMap<String, WebContainerReflect> urlMap = METHOD_URL_CONTAINER.get(method);
-        if (Objects.isNull(urlMap)) {
-            urlMap = buildUrlMap(method);
-        }
-
-        return urlMap.get(url);
+        return METHOD_URL_CONTAINER.getIfAbsent(method, key -> new ConcurrencyHashMap<>(WebConstant.DEFAULT_MAP_OFFSET))
+                .get(url);
     }
 
     public static void setReflect(String method, String url, WebContainerReflect reflect) {
         ConcurrencyHashMap<String, WebContainerReflect> urlMap = METHOD_URL_CONTAINER.get(method);
-        if (Objects.isNull(urlMap)) {
-            urlMap = buildUrlMap(method);
-        }
-        urlMap.set(url, reflect);
-    }
-
-    private static ConcurrencyHashMap<String, WebContainerReflect> buildUrlMap(String method) {
-        ConcurrencyHashMap<String, WebContainerReflect> urlMap = new ConcurrencyHashMap<>(WebConstant.DEFAULT_MAP_OFFSET);
-        METHOD_URL_CONTAINER.set(method, urlMap);
-        return urlMap;
+        METHOD_URL_CONTAINER.getIfAbsent(method, key -> new ConcurrencyHashMap<>(WebConstant.DEFAULT_MAP_OFFSET))
+                .set(url, reflect);
     }
 }
