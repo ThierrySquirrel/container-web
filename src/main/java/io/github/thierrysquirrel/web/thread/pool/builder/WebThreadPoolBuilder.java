@@ -1,5 +1,5 @@
 /**
- * Copyright 2026/2/1 ThierrySquirrel
+ * Copyright 2026/6/1 ThierrySquirrel
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,10 @@ import io.github.thierrysquirrel.web.thread.pool.builder.constant.WebThreadPoolB
 /**
  * Classname: WebThreadPoolBuilder
  * Description:
- * Date:2026/2/1
+ * Date:2026/6/1
  *
  * @author ThierrySquirrel
- * @since JDK21
+ * @since JDK25
  **/
 public class WebThreadPoolBuilder {
     private WebThreadPoolBuilder() {

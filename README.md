@@ -1,4 +1,3 @@
-
 # Container Web
 
 Container Web
@@ -6,32 +5,37 @@ Container Web
 [中文](./README_zh_CN.md)
 
 Support function:
+
 - [x] Load Java.ClassLoading file
 - [x] Global HttpRequest Intercept
 - [x] HTTP Server
 - [x] Global HttpResponse Intercept
 
 # Load Java.ClassLoading file
+
 Load Java.ClassLoading file, located in the resources directory
 
 # Global HttpRequest Intercept:
+
 Intercept HttpRequest
 
 # HTTP Server:
+
 Start processing HTTP data
 
 # Global HttpResponse Intercept:
+
 Intercept HttpResponse
 
 ## Quick Start
 
 ```xml
 <!--Adding dependencies to pom. XML-->
-        <dependency>
-            <groupId>io.github.thierrysquirrel</groupId>
-            <artifactId>container-web</artifactId>
-            <version>1.0.0.1-RELEASE</version>
-        </dependency>
+<dependency>
+    <groupId>io.github.thierrysquirrel</groupId>
+    <artifactId>container-web</artifactId>
+    <version>1.0.0.2-RELEASE</version>
+</dependency>
 ```
 
 # Load Java.ClassLoading file:
@@ -47,6 +51,7 @@ Method.setHttpErrorMethod.String=POST
  ```
 
 # Global HttpRequest Intercept:
+
 ```java
 public class GlobalHttpRequestInterceptImpl implements GlobalHttpRequestIntercept {
     @Override
@@ -66,8 +71,9 @@ public class GlobalHttpRequestInterceptImpl implements GlobalHttpRequestIntercep
 # HTTP Server:
 
 ```java
+
 @ScannerPackage(packageName = "com.hello.world.web")
-public class WebRegistrationImpl implements InterfaceManualRegistration  {
+public class WebRegistrationImpl implements InterfaceManualRegistration {
     @Override
     public void scannerAll(List<Class<?>> scannerClassList, Map<Class<?>, Object> registrationMap) {
         WebRegistration.webRegistrationScannerAll(scannerClassList, registrationMap);
@@ -76,6 +82,7 @@ public class WebRegistrationImpl implements InterfaceManualRegistration  {
 ```
 
 ```java
+
 @Http("/web")
 public class HttpDemo {
     @Set
@@ -140,14 +147,15 @@ public class MainInit {
 # Global HttpResponse Intercept:
 
 ```java
+
 @ResponseIntercept
 public class GlobalHttpResponseInterceptImpl implements GlobalHttpResponseIntercept {
     @Override
     public boolean responseIntercept(HttpRequestContext request, HttpRequestContext response) {
         String hello = response.getHttpHeader().get("hello");
-        if(!Objects.isNull(hello)){
-            response.getHttpHeader().put("Response","Response-Intercept");
-            HttpRequestContextBuilder.builderTextResponse(response,"Response-Intercept");
+        if (!Objects.isNull(hello)) {
+            response.getHttpHeader().put("Response", "Response-Intercept");
+            HttpRequestContextBuilder.builderTextResponse(response, "Response-Intercept");
             return true;
         }
         return false;

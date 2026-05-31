@@ -1,4 +1,3 @@
-
 # Container Web
 
 Web 容器
@@ -6,33 +5,37 @@ Web 容器
 [English](./README.md)
 
 支持功能:
+
 - [x] 加载Java.ClassLoading文件
 - [x] 全局HttpRequest拦截
 - [x] HTTP服务器
 - [x] 全局HttpResponse拦截
 
 # 加载Java.ClassLoading文件:
+
 加载Java.ClassLoading文件,位于resources目录中
 
 # 全局HttpRequest拦截:
+
 拦截HttpRequest
 
 # HTTP服务器:
+
 开始处理HTTP数据
 
 # 全局HttpResponse拦截:
-拦截HttpResponse:
 
+拦截HttpResponse:
 
 ## Quick Start
 
 ```xml
 <!--Adding dependencies to pom. XML-->
-        <dependency>
-            <groupId>io.github.thierrysquirrel</groupId>
-            <artifactId>container-web</artifactId>
-            <version>1.0.0.1-RELEASE</version>
-        </dependency>
+<dependency>
+    <groupId>io.github.thierrysquirrel</groupId>
+    <artifactId>container-web</artifactId>
+    <version>1.0.0.2-RELEASE</version>
+</dependency>
 ```
 
 # 加载Java.ClassLoading文件:
@@ -48,6 +51,7 @@ Method.setHttpErrorMethod.String=POST
  ```
 
 # 全局HttpRequest拦截:
+
 ```java
 public class GlobalHttpRequestInterceptImpl implements GlobalHttpRequestIntercept {
     @Override
@@ -67,8 +71,9 @@ public class GlobalHttpRequestInterceptImpl implements GlobalHttpRequestIntercep
 # HTTP服务器:
 
 ```java
+
 @ScannerPackage(packageName = "com.hello.world.web")
-public class WebRegistrationImpl implements InterfaceManualRegistration  {
+public class WebRegistrationImpl implements InterfaceManualRegistration {
     @Override
     public void scannerAll(List<Class<?>> scannerClassList, Map<Class<?>, Object> registrationMap) {
         WebRegistration.webRegistrationScannerAll(scannerClassList, registrationMap);
@@ -77,6 +82,7 @@ public class WebRegistrationImpl implements InterfaceManualRegistration  {
 ```
 
 ```java
+
 @Http("/web")
 public class HttpDemo {
     @Set
@@ -141,14 +147,15 @@ public class MainInit {
 # 全局HttpResponse:
 
 ```java
+
 @ResponseIntercept
 public class GlobalHttpResponseInterceptImpl implements GlobalHttpResponseIntercept {
     @Override
     public boolean responseIntercept(HttpRequestContext request, HttpRequestContext response) {
         String hello = response.getHttpHeader().get("hello");
-        if(!Objects.isNull(hello)){
-            response.getHttpHeader().put("Response","Response-Intercept");
-            HttpRequestContextBuilder.builderTextResponse(response,"Response-Intercept");
+        if (!Objects.isNull(hello)) {
+            response.getHttpHeader().put("Response", "Response-Intercept");
+            HttpRequestContextBuilder.builderTextResponse(response, "Response-Intercept");
             return true;
         }
         return false;

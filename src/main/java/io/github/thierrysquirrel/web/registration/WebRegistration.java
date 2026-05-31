@@ -1,5 +1,5 @@
 /**
- * Copyright 2026/2/1 ThierrySquirrel
+ * Copyright 2026/6/1 ThierrySquirrel
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +16,34 @@
 
 package io.github.thierrysquirrel.web.registration;
 
+import io.github.thierrysquirrel.hummingbird.core.extend.http.core.coder.server.HttpServerDecoder;
+import io.github.thierrysquirrel.hummingbird.core.extend.http.core.coder.server.HttpServerEncoder;
+import io.github.thierrysquirrel.hummingbird.core.server.init.HummingbirdServerInit;
 import io.github.thierrysquirrel.web.annotation.Http;
+import io.github.thierrysquirrel.web.loading.WebLoading;
 import io.github.thierrysquirrel.web.registration.constant.WebRegistrationConstant;
 import io.github.thierrysquirrel.web.registration.factory.WebRegistrationFactory;
+import io.github.thierrysquirrel.web.server.header.HttpServerHeader;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classname: WebRegistration
  * Description:
- * Date:2026/2/1
+ * Date:2026/6/1
  *
  * @author ThierrySquirrel
- * @since JDK21
+ * @since JDK25
  **/
 public class WebRegistration {
+
+    private static final Logger logger = Logger.getLogger(WebRegistration.class.getName());
+
     private WebRegistration() {
     }
 
@@ -42,6 +53,20 @@ public class WebRegistration {
             for (Annotation annotation : annotations) {
                 findAnnotation(thisClass, registrationMap, annotation);
             }
+        }
+
+        WebLoading object = (WebLoading) registrationMap.get(WebLoading.class);
+        String url = object.getUrl();
+        int readHeartbeatTime = object.getReadHeartbeatTime();
+        int writeHeartbeatTime = object.getWriteHeartbeatTime();
+
+        HttpServerHeader serverHeader = (HttpServerHeader) registrationMap.get(HttpServerHeader.class);
+        try {
+            HummingbirdServerInit.init(url, readHeartbeatTime, writeHeartbeatTime
+                    , new HttpServerDecoder(), new HttpServerEncoder(), serverHeader);
+        } catch (IOException e) {
+            String logMsg = "Init Error";
+            logger.log(Level.WARNING, logMsg, e);
         }
     }
 
