@@ -16,8 +16,6 @@
 
 package io.github.thierrysquirrel.web.registration;
 
-import io.github.thierrysquirrel.hummingbird.core.extend.http.core.coder.server.HttpServerDecoder;
-import io.github.thierrysquirrel.hummingbird.core.extend.http.core.coder.server.HttpServerEncoder;
 import io.github.thierrysquirrel.hummingbird.core.server.init.HummingbirdServerInit;
 import io.github.thierrysquirrel.web.annotation.Http;
 import io.github.thierrysquirrel.web.loading.WebLoading;
@@ -25,12 +23,9 @@ import io.github.thierrysquirrel.web.registration.constant.WebRegistrationConsta
 import io.github.thierrysquirrel.web.registration.factory.WebRegistrationFactory;
 import io.github.thierrysquirrel.web.server.header.HttpServerHeader;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Classname: WebRegistration
@@ -41,8 +36,6 @@ import java.util.logging.Logger;
  * @since JDK25
  **/
 public class WebRegistration {
-
-    private static final Logger logger = Logger.getLogger(WebRegistration.class.getName());
 
     private WebRegistration() {
     }
@@ -55,18 +48,21 @@ public class WebRegistration {
             }
         }
 
-        WebLoading object = (WebLoading) registrationMap.get(WebLoading.class);
-        String url = object.getUrl();
-        int readHeartbeatTime = object.getReadHeartbeatTime();
-        int writeHeartbeatTime = object.getWriteHeartbeatTime();
+        WebLoading webLoading = (WebLoading) registrationMap.get(WebLoading.class);
+        String url = webLoading.getUrl();
+        int readHeartbeatTime = webLoading.getReadHeartbeatTime();
+        int writeHeartbeatTime = webLoading.getWriteHeartbeatTime();
+
+        boolean isSsl = webLoading.isSsl();
 
         HttpServerHeader serverHeader = (HttpServerHeader) registrationMap.get(HttpServerHeader.class);
-        try {
-            HummingbirdServerInit.init(url, readHeartbeatTime, writeHeartbeatTime
-                    , new HttpServerDecoder(), new HttpServerEncoder(), serverHeader);
-        } catch (IOException e) {
-            String logMsg = "Init Error";
-            logger.log(Level.WARNING, logMsg, e);
+
+        if (isSsl) {
+            String resourcePkcsName = webLoading.getResourcePkcsName();
+            String resourcePkcsPassword = webLoading.getResourcePkcsPassword();
+            HummingbirdServerInit.initHttps(url, readHeartbeatTime, writeHeartbeatTime, serverHeader, resourcePkcsName, resourcePkcsPassword);
+        } else {
+            HummingbirdServerInit.initHttp(url, readHeartbeatTime, writeHeartbeatTime, serverHeader);
         }
     }
 

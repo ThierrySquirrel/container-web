@@ -33,4 +33,7 @@ public class WebLoadingConstant {
     public static final int DEFAULT_WRITE_HEARTBEAT_TIME = 0;
     public static final String DEFAULT_HTTP_ERROR_URL = "/web/error";
     public static final String DEFAULT_HTTP_ERROR_METHOD = "POST";
+    public static final boolean DEFAULT_SSL = false;
+    public static final String DEFAULT_RESOURCE_PKCS_NAME = "";
+    public static final String DEFAULT_RESOURCE_PKCS_PASSWORD = "";
 }

@@ -67,8 +67,11 @@ public class HttpServerHeaderExecution extends AbstractHttpServerHeader {
             if (responseIntercept) {
                 return;
             }
+
             HttpRequestContext response = HttpResponseContainer.get();
-            HttpRequestContextBuilder.builderJsonResponse(response, WebSerializeUtils.serializeJson(reflectValue));
+            if (reflectValue != null) {
+                HttpRequestContextBuilder.builderJsonResponse(response, WebSerializeUtils.serializeJson(reflectValue));
+            }
             sendMessage(socketChannelFacade, response);
         } catch (Exception e) {
             String logMsg = "reflect Error";

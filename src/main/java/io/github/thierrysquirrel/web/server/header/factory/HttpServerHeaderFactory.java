@@ -64,7 +64,7 @@ public class HttpServerHeaderFactory {
             HttpRequestContext localResponseContext = HttpResponseContainer.get();
             boolean responseIntercept = globalHttpRequestIntercept.requestIntercept(localRequestContext, localResponseContext);
             if (responseIntercept) {
-                sendMessage(socketChannelFacade, localResponseContext);
+                sendMessage(socketChannelFacade, HttpResponseContainer.get());
                 return Boolean.TRUE;
             }
         }
@@ -135,7 +135,7 @@ public class HttpServerHeaderFactory {
             HttpRequestContext localResponseContext = HttpResponseContainer.get();
             boolean responseIntercept = globalHttpResponseIntercept.responseIntercept(localRequestContext, localResponseContext);
             if (responseIntercept) {
-                sendMessage(socketChannelFacade, localResponseContext);
+                sendMessage(socketChannelFacade, HttpResponseContainer.get());
                 return Boolean.TRUE;
             }
         }
@@ -153,7 +153,10 @@ public class HttpServerHeaderFactory {
             Object invokeValue = reflectMethod.invoke(object);
 
             HttpRequestContext requestContext = HttpResponseContainer.get();
-            HttpRequestContextBuilder.builderJsonResponse(requestContext, WebSerializeUtils.serializeJson(invokeValue));
+            if (invokeValue != null) {
+                HttpRequestContextBuilder.builderJsonResponse(requestContext, WebSerializeUtils.serializeJson(invokeValue));
+            }
+
             sendMessage(socketChannelFacade, requestContext);
         } catch (Exception e) {
             String logMsg = "response Error";

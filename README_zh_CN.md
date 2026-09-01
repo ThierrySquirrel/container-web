@@ -34,7 +34,7 @@ Web 容器
 <dependency>
     <groupId>io.github.thierrysquirrel</groupId>
     <artifactId>container-web</artifactId>
-    <version>1.0.0.2-RELEASE</version>
+    <version>1.0.0.3-RELEASE</version>
 </dependency>
 ```
 
@@ -48,6 +48,9 @@ Method.setReadHeartbeatTime.int=4000
 Method.setWriteHeartbeatTime.int=0
 Method.setHttpErrorUrl.String=/web/error
 Method.setHttpErrorMethod.String=POST
+Method.setSsl.boolean=false
+Method.setResourcePkcsName.String=null.localhost.p12
+Method.setResourcePkcsPassword.String=null.localhost
  ```
 
 # 全局HttpRequest拦截:
@@ -126,11 +129,11 @@ public class HttpDemo {
     }
 
     @Post("/error")
-    public String error() {
+    public void error() {
         HttpRequestContext httpRequest = HttpRequestContainer.get();
         HttpRequestContext httpResponse = HttpResponseContainer.get();
-        System.out.println("error");
-        return "error";
+        httpResponse.getHttpHeader().put("error", "Request-Error");
+        HttpRequestContextBuilder.builderTextResponse(httpResponse, "Request-Error");
     }
 
 }

@@ -38,6 +38,9 @@ public class WebLoading implements InterfaceManualRegistration {
     private int writeHeartbeatTime = WebLoadingConstant.DEFAULT_WRITE_HEARTBEAT_TIME;
     private String httpErrorUrl = WebLoadingConstant.DEFAULT_HTTP_ERROR_URL;
     private String httpErrorMethod = WebLoadingConstant.DEFAULT_HTTP_ERROR_METHOD;
+    private boolean ssl = WebLoadingConstant.DEFAULT_SSL;
+    private String resourcePkcsName = WebLoadingConstant.DEFAULT_RESOURCE_PKCS_NAME;
+    private String resourcePkcsPassword = WebLoadingConstant.DEFAULT_RESOURCE_PKCS_PASSWORD;
 
     @Override
     public void scannerAll(List<Class<?>> scannerClassList, Map<Class<?>, Object> registrationMap) {
@@ -84,6 +87,30 @@ public class WebLoading implements InterfaceManualRegistration {
         this.httpErrorMethod = httpErrorMethod;
     }
 
+    public boolean isSsl() {
+        return ssl;
+    }
+
+    public void setSsl(boolean ssl) {
+        this.ssl = ssl;
+    }
+
+    public String getResourcePkcsName() {
+        return resourcePkcsName;
+    }
+
+    public void setResourcePkcsName(String resourcePkcsName) {
+        this.resourcePkcsName = resourcePkcsName;
+    }
+
+    public String getResourcePkcsPassword() {
+        return resourcePkcsPassword;
+    }
+
+    public void setResourcePkcsPassword(String resourcePkcsPassword) {
+        this.resourcePkcsPassword = resourcePkcsPassword;
+    }
+
     @Override
     public String toString() {
         return "WebLoading{" +
@@ -92,6 +119,9 @@ public class WebLoading implements InterfaceManualRegistration {
                 ", writeHeartbeatTime=" + writeHeartbeatTime +
                 ", httpErrorUrl='" + httpErrorUrl + '\'' +
                 ", httpErrorMethod='" + httpErrorMethod + '\'' +
+                ", ssl=" + ssl +
+                ", resourcePkcsName='" + resourcePkcsName + '\'' +
+                ", resourcePkcsPassword='" + resourcePkcsPassword + '\'' +
                 '}';
     }
 }
